@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sara Fadl Saber — UI/UX Designer (Single Page)</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f9f7fe;
+      --muted:#6b6b7a;
+      --accent-1:#7b61ff;
+      --accent-2:#a176ff;
+      --accent-3:#ff8a5b;
+      --card:#ffffff;
+      --glass: rgba(255,255,255,0.65);
+      --shadow: 0 10px 30px rgba(13,12,31,0.06);
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:'Nunito',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:linear-gradient(180deg,var(--bg),#ffffff);
+      color:#222;-webkit-font-smoothing:antialiased;
+    }
+    .wrap{max-width:var(--maxw);margin:24px auto;padding:20px}
+
+    /* Header */
+    header{
+      background: linear-gradient(135deg, rgba(123,97,255,0.12), rgba(161,118,255,0.08));
+      border-radius:18px;padding:34px;text-align:center;box-shadow:var(--shadow);
+      display:flex;gap:22px;align-items:center;justify-content:center;flex-wrap:wrap;
+    }
+    .photo{
+      width:156px;height:156px;border-radius:50%;padding:6px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      box-shadow:0 12px 30px rgba(123,97,255,0.18);animation:float 6s ease-in-out infinite;flex:0 0 auto;
+    }
+    .photo .inner{width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--card);display:flex;align-items:center;justify-content:center}
+    .photo img{width:100%;height:100%;object-fit:cover;display:block}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+    .hero-text{max-width:720px;text-align:left}
+    h1{font-size:2rem;margin:0;color:#191823}
+    .tagline{margin-top:6px;color:var(--muted);font-weight:700}
+    .intro{margin-top:12px;color:#333;line-height:1.5;font-size:0.98rem}
+
+    /* sections */
+    section{padding:48px 0}
+    h2{text-align:center;color:var(--accent-1);margin:0 0 18px;font-size:1.5rem}
+
+    /* About + skills */
+    .about-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+    .skill{margin-bottom:14px}
+    .skill .meta{display:flex;justify-content:space-between;margin-bottom:6px;color:#444}
+    .skill .bar{height:10px;background:#f0eef9;border-radius:999px;overflow:hidden}
+    .skill .level{height:100%;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));width:0%;transition:width 1s ease}
+
+    /* Slider (portfolio) */
+    .slider-wrap{position:relative;overflow:hidden;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfbff);box-shadow:0 14px 40px rgba(17,16,45,0.06)}
+    .slides{display:flex;transition:transform .7s cubic-bezier(.2,.9,.2,1);will-change:transform}
+    .slide{min-width:100%;padding:36px;display:grid;grid-template-columns: 1fr 420px;gap:22px;align-items:start}
+    .slide .visual{height:360px;border-radius:12px;overflow:hidden;background:#f3f3f7;display:flex;align-items:center;justify-content:center}
+    .slide .visual img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}
+    .slide .meta{padding:12px}
+    .slide h3{margin:0 0 8px;font-size:1.4rem}
+    .slide p{color:#444;line-height:1.45}
+
+    /* right column */
+    .right .card{padding:14px;margin-bottom:12px}
+    .right .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .right .gallery img{width:100%;height:80px;object-fit:cover;border-radius:8px}
+
+    /* controls */
+    .controls{position:absolute;left:16px;right:16px;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;pointer-events:none}
+    .ctrl{pointer-events:auto;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;color:white;padding:12px;border-radius:12px;box-shadow:0 12px 30px rgba(123,97,255,0.14);cursor:pointer;display:flex;align-items:center;gap:8px}
+    .dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
+    .dot{width:10px;height:10px;border-radius:50%;background:#e6e3f8;cursor:pointer;border:none}
+    .dot.active{background:linear-gradient(90deg,var(--accent-1),var(--accent-2))}
+
+    /* autoplay toggle */
+    .slider-footer{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.4));border-top:1px solid rgba(0,0,0,0.03)}
+    .small{font-size:0.92rem;color:#444}
+
+    /* responsive */
+    @media(max-width:980px){
+      .slide{grid-template-columns:1fr}
+      .right{order:2}
+      .slide .visual{height:240px}
+      .right .gallery img{height:70px}
+    }
+    @media(max-width:520px){
+      .photo{width:120px;height:120px}
+      h1{font-size:1.5rem}
+      .intro{font-size:0.95rem}
+      .right .gallery img{height:56px}
+    }
+
+    /* contact */
+    .contact-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+    .contact-link{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;text-decoration:none;color:white;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));box-shadow:0 8px 30px rgba(123,97,255,0.08)}
+
+    /* back to top */
+    #backTop{position:fixed;right:18px;bottom:18px;padding:10px 12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;cursor:pointer;box-shadow:0 14px 40px rgba(123,97,255,0.12);display:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header role="banner">
+      <div class="photo" aria-hidden="true">
+        <div class="inner">
+          <img src="Snapchat-73822712.jpg" alt="Sara Fadl Saber" onerror="this.src='https://via.placeholder.com/400?text=Sara'">
+        </div>
+      </div>
+
+      <div class="hero-text">
+        <h1>Sara Fadl Saber</h1>
+        <div class="tagline">Creative UI/UX Designer • Computer Science & Information Technology Student</div>
+        <div class="intro">I am a passionate UI/UX Designer specialized in visual identity design and marketing materials. I create cohesive and engaging brand experiences using Adobe Photoshop and other design tools to ensure every interface and visual element communicates the right message. My focus is on blending aesthetic design with user-centered functionality, building digital products that not only look stunning but also deliver a smooth and intuitive user experience.</div>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About Me</h2>
+      <div class="about-grid">
+        <div class="card about-text">
+          <p>I'm Sara Fadl, a second-year Computer Science student. Passionate about graphic design, visual creativity & UI/UX designing, I have experience using Photoshop and Figma to create innovative designs that meet client needs.</p>
+          <p>I aim to continuously develop my skills and create unique designs that combine visual beauty with functionality.</p>
+        </div>
+
+        <aside class="right">
+          <div class="card">
+            <h3 style="margin:0 0 10px">Skills</h3>
+            <div class="skill">
+              <div class="meta"><span>Figma</span><strong>90%</strong></div>
+              <div class="bar"><div class="level" data-level="90%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="meta"><span>Photoshop</span><strong>80%</strong></div>
+              <div class="bar"><div class="level" data-level="80%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="meta"><span>Visual Identity Design</span><strong>85%</strong></div>
+              <div class="bar"><div class="level" data-level="85%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="meta"><span>Marketing Materials</span><strong>80%</strong></div>
+              <div class="bar"><div class="level" data-level="80%"></div></div>
+            </div>
+            <div class="skill">
+              <div class="meta"><span>Advertisement Design</span><strong>75%</strong></div>
+              <div class="bar"><div class="level" data-level="75%"></div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4 style="margin:0 0 10px">Quick Contact</h4>
+            <div style="font-size:0.95rem;color:#444;margin-bottom:10px">Email: <strong>sarafadlsaber@gmail.com</strong></div>
+            <div class="contact-row">
+              <a class="contact-link" href="mailto:sarafadlsaber@gmail.com">Email</a>
+              <a class="contact-link" href="https://www.linkedin.com/in/sara-fadl" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO SLIDER -->
+    <section id="portfolio">
+      <h2>Portfolio — Projects</h2>
+
+      <div class="slider-wrap card" aria-roledescription="carousel">
+        <div class="slides" id="slides">
+
+          <!-- SLIDE 1: Rambo Design -->
+          <article class="slide" data-title="Rambo Design" data-accent="#ff7a5a">
+            <div class="visual">
+              <img src="Screenshot 2025-10-08 120725.png" alt="Rambo Design">
+            </div>
+            <div class="meta">
+              <h3>Rambo Design — Creative Poster Series</h3>
+              <p>Role: Visual Designer — Tools: Photoshop, Illustrator — Year: 2025</p>
+              <p>Overview: A bold poster series with cinematic compositions, strong typography, and color grading for social and print promotion.</p>
+              <div style="margin-top:12px">
+                <strong>Process:</strong>
+                <ul style="margin:8px 0 0 18px;color:#444">
+                  <li>Research & reference gathering</li>
+                  <li>Sketching thumbnails & composition exploration</li>
+                  <li>Final execution & color grading</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="right">
+              <div class="card">
+                <strong>Project Details</strong>
+                <p style="margin:6px 0 0">Client: Personal • Deliverables: Posters, Social banners</p>
+              </div>
+              <div class="card">
+                <div class="gallery">
+                  <img src="Screenshot 2025-10-08 120725.png" alt="Rambo alt">
+                  <img src="Screenshot 2025-10-08 120725.png" alt="Rambo alt 2">
+                </div>
+              </div>
+            </aside>
+          </article>
+
+          <!-- SLIDE 2: Coffee Shop UI -->
+          <article class="slide" data-title="Coffee Shop UI" data-accent="#c48a5a">
+            <div class="visual"><img src="Screenshot 2025-10-08 121605.png" alt="Coffee Shop UI"></div>
+            <div class="meta">
+              <h3>Coffee Shop UI/UX — App Interface</h3>
+              <p>Designing friendly, fast ordering flows with delightful micro-interactions—focus on usability & quick conversion.</p>
+              <div style="margin-top:12px">
+                <strong>Highlights:</strong>
+                <ul style="margin:8px 0 0 18px;color:#444">
+                  <li>One-tap ordering</li>
+                  <li>Promotional card system</li>
+                  <li>Order tracking microcopy</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="right">
+              <div class="card"><strong>Deliverables</strong><p style="margin:6px 0 0">App screens, prototype flows</p></div>
+              <div class="card">
+                <div class="gallery">
+                  <img src="Screenshot 2025-10-08 121605.png" alt="Coffee UI 1">
+                  <img src="Screenshot 2025-10-08 121605.png" alt="Coffee UI 2">
+                </div>
+              </div>
+            </aside>
+          </article>
+
+          <!-- SLIDE 3: Real Estate -->
+          <article class="slide" data-title="Real Estate Poster" data-accent="#5aa3ff">
+            <div class="visual"><img src="Screenshot 2025-10-08 121742.png" alt="Real Estate Poster"></div>
+            <div class="meta">
+              <h3>Real-State Company Poster</h3>
+              <p>Goal: Eye-catching promotional poster to communicate trust and opportunity for buyers and investors.</p>
+              <div style="margin-top:12px">
+                <strong>Delivery</strong>
+                <ul style="margin:8px 0 0 18px;color:#444">
+                  <li>High-res poster for print</li>
+                  <li>Social banner adaptions</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="right">
+              <div class="card"><strong>Client</strong><p style="margin:6px 0 0">Real-state concept</p></div>
+              <div class="card">
+                <div class="gallery">
+                  <img src="Screenshot 2025-10-08 121742.png" alt="Realestate">
+                  <img src="Screenshot 2025-10-08 121742.png" alt="Realestate 2">
+                </div>
+              </div>
+            </aside>
+          </article>
+
+          <!-- SLIDE 4: Wireframes -->
+          <article class="slide" data-title="Wireframes & Prototypes" data-accent="#b37aff">
+            <div class="visual"><img src="canva.png" alt="Wireframes"></div>
+            <div class="meta">
+              <h3>Wireframes & Prototypes</h3>
+              <p>Low-to-high fidelity wireframes and prototypes made in Canva & Figma. Focus: clear flows that map to user goals.</p>
+              <div style="margin-top:12px">
+                <strong>Process</strong>
+                <ul style="margin:8px 0 0 18px;color:#444">
+                  <li>User flows → wireframes → high-fidelity screens → prototype</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="right">
+              <div class="card"><strong>Outputs</strong><p style="margin:6px 0 0">Wireframes, clickable prototype</p></div>
+              <div class="card">
+                <div class="gallery">
+                  <img src="canva.png" alt="Wireframe 1">
+                  <img src="canva.png" alt="Wireframe 2">
+                </div>
+              </div>
+            </aside>
+          </article>
+
+          <!-- SLIDE 5: Persona -->
+          <article class="slide" data-title="Persona Design" data-accent="#4dd0c8">
+            <div class="visual"><img src="persona.png" alt="Persona"></div>
+            <div class="meta">
+              <h3>Persona Design</h3>
+              <p>User persona boards capturing motivations, frustrations and contexts to guide product decisions and prioritize features.</p>
+              <div style="margin-top:12px">
+                <strong>Insights</strong>
+                <ul style="margin:8px 0 0 18px;color:#444">
+                  <li>Behavior mapping</li>
+                  <li>Pain points prioritization</li>
+                  <li>Actionable MVP requirements</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="right">
+              <div class="card"><strong>Artifacts</strong><p style="margin:6px 0 0">Persona boards, research notes</p></div>
+              <div class="card">
+                <div class="gallery">
+                  <img src="persona.png" alt="Persona board">
+                  <img src="persona.png" alt="Persona board 2">
+                </div>
+              </div>
+            </aside>
+          </article>
+
+          <!-- SLIDE 6: Huda -->
+          <article class="slide" data-title="Huda Beauty Redesign" data-accent="#de7db9">
+            <div class="visual"><img src="edited huda.png" alt="Huda redesign"></div>
+            <div class="meta">
+              <h3>Huda Beauty — Website Redesign</h3>
+              <p>Reimagined product pages & checkout flows for better discoverability and conversion while keeping a luxury aesthetic.</p>
+              <div style="margin-top:12px">
+                <strong>Work</strong>
+                <ul style="margin:8px 0 0 18px;color:#444">
+                  <li>Product detail templates</li>
+                  <li>Checkout microcopy & trust signals</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="right">
+              <div class="card"><strong>Deliverables</strong><p style="margin:6px 0 0">Mockups, before/after assets</p></div>
+              <div class="card">
+                <div class="gallery">
+                  <img src="edited huda.png" alt="Huda new">
+                  <img src="edited huda.png" alt="Huda old">
+                </div>
+              </div>
+            </aside>
+          </article>
+
+        </div> <!-- slides -->
+
+        <!-- controls -->
+        <div class="controls" aria-hidden="false">
+          <button id="prev" class="ctrl" aria-label="Previous project">〈 Prev</button>
+          <button id="next" class="ctrl" aria-label="Next project">Next 〉</button>
+        </div>
+
+        <!-- slider footer -->
+        <div class="slider-footer">
+          <div class="small" id="slideTitle">Rambo Design</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="dots" id="dots" role="tablist" aria-label="Project dots"></div>
+            <button id="autoplayToggle" class="ctrl" style="padding:8px 12px;font-size:0.9rem">Pause</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <div style="text-align:center;margin-top:10px">
+        <a class="contact-link" href="mailto:sarafadlsaber@gmail.com">sarafadlsaber@gmail.com</a>
+        <a class="contact-link" href="https://www.linkedin.com/in/sara-fadl" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </section>
+
+    <footer style="text-align:center;color:var(--muted);margin-top:18px">© 2023 All Rights Reserved | Designed by Sara Fadl</footer>
+  </div>
+
+  <button id="backTop" aria-label="Back to top">↑</button>
+
+  <script>
+    (function(){
+      // slider setup
+      const slidesEl = document.getElementById('slides');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dotsContainer = document.getElementById('dots');
+      const titleEl = document.getElementById('slideTitle');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      const autoplayToggle = document.getElementById('autoplayToggle');
+      let index = 0;
+      let autoplay = true;
+      let interval = null;
+      const autoplayDelay = 6000;
+
+      // create dots
+      slides.forEach((s,i)=>{
+        const d = document.createElement('button');
+        d.className = 'dot';
+        d.setAttribute('aria-label','Go to project '+(i+1));
+        d.addEventListener('click', ()=>goTo(i));
+        dotsContainer.appendChild(d);
+      });
+      const dots = Array.from(document.querySelectorAll('.dot'));
+
+      function update() {
+        slidesEl.style.transform = `translateX(-${index*100}%)`;
+        dots.forEach(d=>d.classList.remove('active'));
+        if(dots[index]) dots[index].classList.add('active');
+        // update title
+        const title = slides[index].dataset.title || ('Project '+(index+1));
+        titleEl.textContent = title;
+        // subtle visual pop on current image
+        slides.forEach((s,i)=>{
+          const img = s.querySelector('.visual img');
+          if(img) img.style.transform = i===index ? 'scale(1.02)' : 'scale(1)';
+        });
+      }
+
+      function goTo(i){
+        index = (i + slides.length) % slides.length;
+        update();
+        resetAutoplay();
+      }
+      function next(){ goTo(index+1) }
+      function prev(){ goTo(index-1) }
+
+      prevBtn.addEventListener('click', prev);
+      nextBtn.addEventListener('click', next);
+
+      // keyboard navigation
+      window.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowRight') next();
+        if(e.key==='ArrowLeft') prev();
+      });
+
+      // intersection observer to animate skill bars
+      const about = document.querySelector('#about');
+      const levelEls = document.querySelectorAll('.level');
+      if(about){
+        const obs = new IntersectionObserver(entries=>{
+          entries.forEach(entry=>{
+            if(entry.isIntersecting){
+              levelEls.forEach(el=> el.style.width = el.dataset.level || '70%');
+              obs.disconnect();
+            }
+          });
+        }, {threshold:0.2});
+        obs.observe(about);
+      }
+
+      // autoplay
+      function startAutoplay(){
+        if(interval) clearInterval(interval);
+        interval = setInterval(()=> next(), autoplayDelay);
+        autoplayToggle.textContent = 'Pause';
+        autoplay = true;
+      }
+      function stopAutoplay(){
+        if(interval) clearInterval(interval);
+        interval = null;
+        autoplayToggle.textContent = 'Play';
+        autoplay = false;
+      }
+      function resetAutoplay(){
+        if(autoplay) startAutoplay();
+      }
+      autoplayToggle.addEventListener('click', ()=>{
+        if(autoplay) stopAutoplay(); else startAutoplay();
+      });
+
+      // init
+      update();
+      startAutoplay();
+
+      // dots initial active
+      update();
+
+      // make slides reveal animation with intersection observer
+      const slideObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, {threshold: 0.08});
+      document.querySelectorAll('.slide').forEach(s => slideObserver.observe(s));
+
+      // back to top
+      const back = document.getElementById('backTop');
+      window.addEventListener('scroll', ()=>{
+        back.style.display = window.scrollY > 420 ? 'block' : 'none';
+      });
+      back.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+      // resize: keep index visible
+      window.addEventListener('resize', update);
+
+      // Accessible focus on dots with keyboard
+      dots.forEach((d,i)=> d.addEventListener('keydown', (e)=> {
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(i); }
+      }));
+
+      // touch swipe for mobile
+      let startX = 0;
+      let deltaX = 0;
+      slidesEl.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+      slidesEl.addEventListener('touchmove', e => { deltaX = e.touches[0].clientX - startX; });
+      slidesEl.addEventListener('touchend', () => {
+        if(Math.abs(deltaX) > 50){ if(deltaX < 0) next(); else prev(); }
+        deltaX = 0;
+      });
+
+      // clicking right-side gallery image jumps to that slide if matched by src
+      document.querySelectorAll('.right .gallery img').forEach(imgEl=>{
+        imgEl.addEventListener('click', ()=>{
+          // find which slide has similar src
+          const src = imgEl.getAttribute('src');
+          const idx = slides.findIndex(s => s.querySelector('.visual img') && s.querySelector('.visual img').getAttribute('src') === src);
+          if(idx >= 0) goTo(idx);
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
